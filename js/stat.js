@@ -1,8 +1,5 @@
 'use strict';
 
-var canvas = document.getElementById('canvas');
-var ctx = canvas.getContext('2d');
-
 window.renderStatistics = function (ctx, names, times) {
 
   ctx.fillStyle = 'rgba(0, 0, 0, 0.7)';
@@ -33,20 +30,11 @@ window.renderStatistics = function (ctx, names, times) {
   var shift = 10;
   var distanceBetweenBars = 50;
 
-  for (var i = 0; i < times.length; i++) {
+  for (i = 0; i < times.length; i++) {
+    ctx.fillStyle = (names[i] === 'Вы') ? 'rgba(255, 0, 0, 1)' : 'rgba(0, 0, 255, ' + (Math.random() + 0.1) + ')';
     ctx.fillRect(initialX + (barWidth + distanceBetweenBars) * i, barChartHeight - (times[i] * step) + initialY + shift, barWidth, times[i] * step);
+    ctx.fillStyle = '#000';
     ctx.fillText(names[i], initialX + (barWidth + distanceBetweenBars) * i, initialY + barChartHeight + shift);
     ctx.fillText(times[i].toFixed(), initialX + (barWidth + distanceBetweenBars) * i, barChartHeight - (times[i] * step) + initialY - shift);
   }
-
-  for (var i = 0; i < names.length; i++) {
-    if (names[i] === 'Вы') {
-      ctx.fillStyle = 'rgba(255, 0, 0, 1)';
-    } else {
-      for (var i = 0; i < times.length; i++) {
-      ctx.fillStyle = 'rgb(0, 0, 255)';
-      ctx.globalAlpha = Math.random();
-    }
-    }
-  }
-}
+};
