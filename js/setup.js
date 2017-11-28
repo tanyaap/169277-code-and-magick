@@ -17,20 +17,20 @@ var getRandomElement = function (array) {
 };
 
 var wizardsSet = [
-  {name: '', coatColor: '', eyesColor: ''},
-  {name: '', coatColor: '', eyesColor: ''},
-  {name: '', coatColor: '', eyesColor: ''},
-  {name: '', coatColor: '', eyesColor: ''}
+  {'name': '', 'coatColor': '', 'eyesColor': ''},
+  {'name': '', 'coatColor': '', 'eyesColor': ''},
+  {'name': '', 'coatColor': '', 'eyesColor': ''},
+  {'name': '', 'coatColor': '', 'eyesColor': ''}
 ];
 
-for (var i = 0; i <= wizardsSet.length; i++) {
+for (var i = 0; i < wizardsSet.length; i++) {
   wizardsSet[i].name = getRandomElement(WIZARDS_NAMES) + ' ' + getRandomElement(WIZARDS_LAST_NAMES);
   wizardsSet[i].coatColor = getRandomElement(COAT_COLORS);
   wizardsSet[i].eyesColor = getRandomElement(EYES_COLORS);
 }
 
 var fragment = document.createDocumentFragment();
-for (i = 0; i <= wizardsSet.length; i++) {
+for (i = 0; i < wizardsSet.length; i++) {
   var wizardFromSet = wizardTemplate.cloneNode(true);
   wizardFromSet.querySelector('.setup-similar-label').textContent = wizardsSet[i].name;
   wizardFromSet.querySelector('.wizard-coat').style.fill = wizardsSet[i].coatColor;
