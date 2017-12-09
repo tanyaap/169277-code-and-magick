@@ -13,12 +13,6 @@ var setupOpen = document.querySelector('.setup-open');
 var setupClose = setupWizard.querySelector('.setup-close');
 var userName = setupWizard.querySelector('.setup-user-name');
 
-function onPopupEscPress(evt) {
-  if (evt.keyCode === ESC_KEYCODE && !userNameFocus) {
-    closePopup();
-  }
-}
-
 var userNameFocus = false;
 userName.addEventListener('focus', function () {
   userNameFocus = true;
@@ -26,6 +20,12 @@ userName.addEventListener('focus', function () {
 userName.addEventListener('blur', function () {
   userNameFocus = false;
 });
+
+function onPopupEscPress(evt) {
+  if (evt.keyCode === ESC_KEYCODE && !userNameFocus) {
+    closePopup();
+  }
+}
 
 function openPopup() {
   setupWizard.classList.remove('hidden');
