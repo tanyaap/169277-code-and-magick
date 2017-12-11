@@ -9,6 +9,10 @@
   var setupOpen = document.querySelector('.setup-open');
   var setupClose = setupWizard.querySelector('.setup-close');
   var userName = setupWizard.querySelector('.setup-user-name');
+  var initCoords = {
+    x: 0,
+    y: 0
+  };
 
   var userNameFocus = false;
   userName.addEventListener('focus', function () {
@@ -26,10 +30,14 @@
 
   function openPopup() {
     setupWizard.classList.remove('hidden');
+    initCoords.x = setupWizard.offsetLeft;
+    initCoords.y = setupWizard.offsetTop;
     document.addEventListener('keydown', onPopupEscPress);
   }
 
   function closePopup() {
+    setupWizard.style.left = initCoords.x + 'px';
+    setupWizard.style.top = initCoords.y + 'px';
     setupWizard.classList.add('hidden');
     document.removeEventListener('keydown', onPopupEscPress);
   }
@@ -65,7 +73,6 @@
     wizardEyesColors.style.fill = window.util.getRandomElement(EYES_COLORS);
   }
   wizardEyesColors.addEventListener('click', onClickEyes);
-
 
   function onClickFireball() {
     fireballColors.style.backgroundColor = window.util.getRandomElement(FIREBALLS);
