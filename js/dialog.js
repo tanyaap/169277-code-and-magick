@@ -59,12 +59,24 @@
   setupClose.addEventListener('keydown', function (evt) {
     window.util.isEnterEvent(evt, closePopup);
   });
-
+  // блок с колбэк
   var wizardCoatColors = setupWizard.querySelector('.wizard-coat');
   var wizardEyesColors = setupWizard.querySelector('.wizard-eyes');
   var fireballColors = setupWizard.querySelector('.setup-fireball-wrap');
 
-  function onClickCoat() {
+  function colorizeElement(element, color) {
+    element.style.fill = color;
+  }
+
+  function colorizeBackgroundElement(element, color) {
+    element.style.backgroundColor = color;
+  }
+
+  window.colorizeElement.onClickColorize(wizardCoatColors, window.util.getRandomElement(COAT_COLORS), colorizeElement);
+  window.colorizeElement.onClickColorize(wizardEyesColors, window.util.getRandomElement(EYES_COLORS), colorizeElement);
+  window.colorizeElement.onClickColorize(fireballColors, window.util.getRandomElement(FIREBALLS), colorizeBackgroundElement);
+  // конец блока
+  /*  function onClickCoat() {
     wizardCoatColors.style.fill = window.util.getRandomElement(COAT_COLORS);
   }
   wizardCoatColors.addEventListener('click', onClickCoat);
@@ -77,7 +89,7 @@
   function onClickFireball() {
     fireballColors.style.backgroundColor = window.util.getRandomElement(FIREBALLS);
   }
-  fireballColors.addEventListener('click', onClickFireball);
+  fireballColors.addEventListener('click', onClickFireball);*/
 
   var dialogHandler = setupWizard.querySelector('.setup-user-pic');
   dialogHandler.style.zIndex = 1; // только как грузить аватарку, если будет в заданиях?
