@@ -24,17 +24,43 @@
     wizardsSet[i].eyesColor = window.util.getRandomElement(EYES_COLORS);
   }
 
-  var fragment = document.createDocumentFragment();
-  for (i = 0; i < wizardsSet.length; i++) {
+  function renderWizard() {
     var wizardFromSet = wizardTemplate.cloneNode(true);
     wizardFromSet.querySelector('.setup-similar-label').textContent = wizardsSet[i].name;
     wizardFromSet.querySelector('.wizard-coat').style.fill = wizardsSet[i].coatColor;
     wizardFromSet.querySelector('.wizard-eyes').style.fill = wizardsSet[i].eyesColor;
-    fragment.appendChild(wizardFromSet);
+    return wizardFromSet;
   }
-  similarWizardsList.appendChild(fragment);
 
-  setupWizard.querySelector('.setup-similar').classList.remove('hidden');
+  function successHandler(wizards) {
+    var fragment = document.createDocumentFragment();
+    for (i = 0; i < 4; i++) {
+      fragment.appendChild(renderWizard(wizards[i]));
+    }
+    similarWizardsList.appendChild(fragment);
+    setupWizard.querySelector('.setup-similar').classList.remove('hidden');
+  }
+
+  function errorHandler(errorMessage) {
+    var node = document.createElement('div');
+    node.style = 'z-index: 100; margin: 0 auto; text-align: center; background-color: #dd1f1f; border: 2px solid #fff; font-weight: bold';
+    node.style.position = 'absolute';
+    node.style.left = 0;
+    node.style.right = 0;
+    node.style.fontSize = '28px';
+    node.textContent = errorMessage;
+    document.body.insertAdjacentElement('afterbegin', node);
+  }
+
+  window.backend.load(successHandler, errorHandler);
+
+  var form = setupWizard.querySelector('.setup-wizard-form');
+  form.addEventListener('submit', function (evt) {
+    window.backend.save(new FormData(form), function () {
+      setupWizard.classList.add('hidden');
+    }, errorHandler);
+    evt.preventDefault();
+  });
 
   var shopItem = setupWizard.querySelector('.setup-artifacts-shop');
   var draggedItem = null;
