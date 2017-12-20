@@ -1,26 +1,63 @@
 'use strict';
 
 (function () {
+  var DEBOUNCE_INTERVAL = 500;
   var setupWizard = document.querySelector('.setup');
-
-  var similarWizardsList = setupWizard.querySelector('.setup-similar-list');
-  var wizardTemplate = document.querySelector('#similar-wizard-template').content;
-
-  function renderWizard(wizardArr) {
-    var wizardFromSet = wizardTemplate.cloneNode(true);
-    wizardFromSet.querySelector('.setup-similar-label').textContent = wizardArr.name;
-    wizardFromSet.querySelector('.wizard-coat').style.fill = wizardArr.colorCoat;
-    wizardFromSet.querySelector('.wizard-eyes').style.fill = wizardArr.colorEyes;
-    return wizardFromSet;
+  var coatColor;
+  var eyesColor;
+  var lastTimeout;
+  function debounce(func) {
+    if (lastTimeout) {
+      window.clearTimeout(lastTimeout);
+    }
+    lastTimeout = window.setTimeout(func, DEBOUNCE_INTERVAL);
   }
 
-  function successHandler(wizards) {
-    var fragment = document.createDocumentFragment();
-    for (var i = 0; i < 4; i++) {
-      fragment.appendChild(renderWizard(wizards[i]));
+  function getRank(wizard) {
+    var rank = 0;
+    if (wizard.colorCoat === coatColor) {
+      rank += 2;
     }
-    similarWizardsList.appendChild(fragment);
-    setupWizard.querySelector('.setup-similar').classList.remove('hidden');
+    if (wizard.colorEyes === eyesColor) {
+      rank += 1;
+    }
+    return rank;
+  }
+
+  function namesComparator(left, right) {
+    if (left > right) {
+      return 1;
+    } else if (left < right) {
+      return -1;
+    } else {
+      return 0;
+    }
+  }
+
+  function updateWizards() {
+    window.render(wizards.sort(function (left, right) {
+      var rankDiff = getRank(right) - getRank(left);
+      if (rankDiff === 0) {
+        rankDiff = namesComparator(left.name, right.name);
+      }
+      return rankDiff;
+    }));
+  }
+
+  window.wizard.onCoatChange = function (color) {
+    coatColor = color;
+    debounce(updateWizards);
+  };
+
+  window.wizard.onEyesChange = function (color) {
+    eyesColor = color;
+    debounce(updateWizards);
+  };
+
+  var wizards = [];
+  function successHandler(data) {
+    wizards = data;
+    updateWizards();
   }
 
   function errorHandler(errorMessage) {
@@ -30,7 +67,7 @@
     node.style.textAlign = 'center';
     node.style.backgroundColor = '#dd1f1f';
     node.style.border = '2px solid #fff';
-    node.style.border = 'bold';
+    node.style.fontWeight = 'bold';
     node.style.position = 'absolute';
     node.style.left = 0;
     node.style.right = 0;
