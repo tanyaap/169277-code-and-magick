@@ -18,6 +18,7 @@
     for (var i = 0; i < 4; i++) {
       fragment.appendChild(renderWizard(data[i]));
     }
+    similarWizardsList.textContent = '';
     similarWizardsList.appendChild(fragment);
     setupWizard.querySelector('.setup-similar').classList.remove('hidden');
   };
