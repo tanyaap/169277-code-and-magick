@@ -1,8 +1,6 @@
 'use strict';
 
 (function () {
-  var COAT_COLORS = ['rgb(101, 137, 164)', 'rgb(241, 43, 107)', 'rgb(146, 100, 161)', 'rgb(56, 159, 117)', 'rgb(215, 210, 55)', 'rgb(0, 0, 0)'];
-  var EYES_COLORS = ['black', 'red', 'blue', 'yellow', 'green'];
   var FIREBALLS = ['#ee4830', '#30a8ee', '#5ce6c0', '#e848d5', '#e6e848'];
 
   var setupWizard = document.querySelector('.setup');
@@ -60,20 +58,12 @@
     window.util.isEnterEvent(evt, closePopup);
   });
 
-  var wizardCoatColors = setupWizard.querySelector('.wizard-coat');
-  var wizardEyesColors = setupWizard.querySelector('.wizard-eyes');
   var fireballColors = setupWizard.querySelector('.setup-fireball-wrap');
-
-  function changeColor(element, color) {
-    element.style.fill = window.util.getRandomElement(color);
-  }
 
   function changeBackground(element, color) {
     element.style.backgroundColor = window.util.getRandomElement(color);
   }
 
-  window.colorize(wizardCoatColors, COAT_COLORS, changeColor);
-  window.colorize(wizardEyesColors, EYES_COLORS, changeColor);
   window.colorize(fireballColors, FIREBALLS, changeBackground);
 
   var dialogHandler = setupWizard.querySelector('.setup-user-pic');
